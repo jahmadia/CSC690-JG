@@ -4,7 +4,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var gameStarted = Bool(false)
     var died = Bool(false)
-
+    
     
     var score = Int(0)
     var scoreLbl = SKLabelNode()
@@ -30,6 +30,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameStarted == false{
             gameStarted =  true
             bird.physicsBody?.affectedByGravity = true
+            createPauseBtn()
             logoImg.run(SKAction.scale(to: 0.5, duration: 0.3), completion: {
                 self.logoImg.removeFromParent()
             })
@@ -38,10 +39,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let spawn = SKAction.run({
                 () in
-               
+                self.wallPair = self.createWalls()
+                self.addChild(self.wallPair)
             })
             
-            let delay = SKAction.wait(forDuration: 1.5)
+            let delay = SKAction.wait(forDuration: 2.0)
             let SpawnDelay = SKAction.sequence([spawn, delay])
             let spawnDelayForever = SKAction.repeatForever(SpawnDelay)
             self.run(spawnDelayForever)
@@ -130,14 +132,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let animatebird = SKAction.animate(with: self.birdSprites, timePerFrame: 0.1)
         self.repeatActionbird = SKAction.repeatForever(animatebird)
         
-        
+        scoreLbl = createScoreLabel()
         self.addChild(scoreLbl)
         
-        
+        highscoreLbl = createHighscoreLabel()
         self.addChild(highscoreLbl)
         
         
-       
+        taptoplayLbl = createTaptoplayLabel()
         self.addChild(taptoplayLbl)
     }
     
@@ -153,7 +155,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }))
             if died == false{
                 died = true
-                
+                createRestartBtn()
                 pauseBtn.removeFromParent()
                 self.bird.removeAllActions()
             }
