@@ -16,7 +16,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var wallPair = SKNode()
     var moveAndRemove = SKAction()
     
-    //CREATE THE BIRD ATLAS FOR ANIMATION
+    //CREATE THE BIRD ANIMATION
     let birdAtlas = SKTextureAtlas(named:"player")
     var birdSprites = Array<SKTexture>()
     var bird = SKSpriteNode()
@@ -119,9 +119,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.addChild(background)
         }
         
-        //SET UP THE BIRD SPRITE FOR ANIMATION
+        //SET UP THE BIRD SPRITES FOR ANIMATION
         birdSprites.append(birdAtlas.textureNamed("bird-01"))
-     
         
         self.bird = createBird()
         self.addChild(bird)
@@ -157,30 +156,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 pauseBtn.removeFromParent()
                 self.bird.removeAllActions()
             }
-        } else if firstBody.categoryBitMask == CollisionBitMask.birdCategory && secondBody.categoryBitMask == CollisionBitMask.flowerCategory {
+        } else if firstBody.categoryBitMask == CollisionBitMask.birdCategory && secondBody.categoryBitMask == CollisionBitMask.ItemCategory {
             score += 1
             scoreLbl.text = "\(score)"
             secondBody.node?.removeFromParent()
-        } else if firstBody.categoryBitMask == CollisionBitMask.flowerCategory && secondBody.categoryBitMask == CollisionBitMask.birdCategory {
+        } else if firstBody.categoryBitMask == CollisionBitMask.ItemCategory && secondBody.categoryBitMask == CollisionBitMask.birdCategory {
             score += 1
             scoreLbl.text = "\(score)"
             firstBody.node?.removeFromParent()
-        }
-    }
-    
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-        if gameStarted == true{
-            if died == false{
-                enumerateChildNodes(withName: "background", using: ({
-                    (node, error) in
-                    let bg = node as! SKSpriteNode
-                    bg.position = CGPoint(x: bg.position.x - 2, y: bg.position.y)
-                    if bg.position.x <= -bg.size.width {
-                        bg.position = CGPoint(x:bg.position.x + bg.size.width * 2, y:bg.position.y)
-                    }
-                }))
-            }
         }
     }
 }
