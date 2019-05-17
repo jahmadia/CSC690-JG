@@ -119,11 +119,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.addChild(background)
         }
         
-        //SET UP THE BIRD SPRITES FOR ANIMATION
+        //SET UP THE BIRD SPRITE FOR ANIMATION
         birdSprites.append(birdAtlas.textureNamed("bird-01"))
-        birdSprites.append(birdAtlas.textureNamed("bird-01"))
-        birdSprites.append(birdAtlas.textureNamed("bird-01"))
-        birdSprites.append(birdAtlas.textureNamed("bird-01"))
+     
         
         self.bird = createBird()
         self.addChild(bird)
